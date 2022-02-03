@@ -1,0 +1,31 @@
+.input{
+    padding: 10px;
+    margin: 5px;
+    background: white;
+    border-radius:5px;
+    transition: .3s border-color;
+    outline: none;
+}
+
+.input:hover {
+    border: 1px solid #eee;
+}
+
+.superInput:focus {
+    border: 1px solid dodgerblue;
+}
+
+.superInput {
+    border: 1px solid #eee;
+}
+
+.errorInput {
+    border: 1px solid red;
+    color: red;
+}
+
+.error {
+    color: red;
+    height: 25px;
+    margin-left: 10px;
+}
