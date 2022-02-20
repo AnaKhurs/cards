@@ -1,0 +1,40 @@
+.navContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 30%;
+}
+
+
+.navLink {
+    width: 173px;
+    height: 63px;
+    text-decoration: none;
+    color: #ffffff;
+    transition-delay: 0.1s;
+    opacity: 0.9;
+}
+
+.navLink:hover {
+    color: #ffffff;
+}
+
+
+.navLinkContext {
+    height: 57px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardsImg {
+    width: 25px;
+    height: 27px;
+    margin-right: 4px;
+}
+
+.useImg {
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+}
