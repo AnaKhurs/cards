@@ -1,50 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bb8f1c6a-bd8e-4b6e-a0de-ef9ccde06f8b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/cards.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dal/api.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/App.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/App.test.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/App.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Common/DemoUI.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Common/DemoUI.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Common/SuperButton/SuperButton.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Common/SuperButton/SuperButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Common/SuperCheckbox/SuperCheckbox.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Common/SuperCheckbox/SuperCheckbox.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Common/SuperInputText/SuperInputText.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Common/SuperInputText/SuperInputText.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Header/Header.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Header/Header.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Pages/Login.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Pages/NewPassword.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Pages/PageNotFound.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Pages/PasswordRecovery.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Pages/Profile.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Pages/Registration.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Routes/RoutesApp.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/loginReducer.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/newPasswordReducer.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/passwordRecoveryReducer.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/profileReducer.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/registrationReducer.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/store.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
-    </list>
+    <list default="true" id="264a4a1a-e7d5-40b1-85ab-86282f710766" name="Default Changelist" comment="fix bug Table component" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="25NwiceEHm2aNroiRSAheVzFVzv" />
+  <component name="ProjectId" id="25QLUm63cwtR9ZMwOIRcUNtAYRB" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -54,8 +25,16 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/features/ButtonSort" />
     <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/features/ButtonSort" />
+      <recent name="$PROJECT_DIR$/src/features/Table" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
@@ -77,16 +56,70 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bb8f1c6a-bd8e-4b6e-a0de-ef9ccde06f8b" name="Default Changelist" comment="" />
-      <created>1645380983427</created>
+      <changelist id="264a4a1a-e7d5-40b1-85ab-86282f710766" name="Default Changelist" comment="" />
+      <created>1645454386255</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1645380983427</updated>
-      <workItem from="1645380988170" duration="285000" />
+      <updated>1645454386255</updated>
+      <workItem from="1645454390526" duration="14087000" />
     </task>
+    <task id="LOCAL-00001" summary="create Table component, add FilterPacks feature">
+      <created>1645458660598</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1645458660598</updated>
+    </task>
+    <task id="LOCAL-00002" summary="create Table component, add FilterPacks feature">
+      <created>1645458892488</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1645458892488</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix bug Table component">
+      <created>1645469884014</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1645469884014</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="create Table component, add FilterPacks feature" />
+    <MESSAGE value="fix bug Table component" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug Table component" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/features/CustomModals/DeleteModal/DeletePackModal.tsx</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/features/Packs/Packs.tsx</url>
+          <line>60</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
