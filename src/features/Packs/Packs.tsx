@@ -1,85 +1,146 @@
-import {Navigate} from 'react-router-dom';
-import {PATH} from '../../utils/paths';
-import React, {ChangeEvent, useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../bll/store';
 import {Pack} from './Pack/Pack';
-import {TextField} from '@mui/material';
-import s from '../Pages/LoginPage/LoginPage.module.scss';
-import {useDebounce} from '../../utils/debounce';
 import loader from '../../common/img/loader.gif';
 import {CustomMuiPagination} from '../Pagination/CustomMuiPagination';
 import {CustomMuiSelect} from '../Select/CustomMuiSelect';
-import {createPack, fetchPacks, clearPacksData} from '../../bll/packs-reducer';
+import {clearPacksData, createPack, fetchPacks, removePack, setOwn, updatePack} from '../../bll/packs-reducer';
+import {NotAuthRedirect} from '../../hoc/NotAuthRedirect';
+import {Input} from './Input/Input';
+import {CardPackType, GetPacksPayloadType} from '../../dal/packs-api';
+import {List} from "../List/List";
+import s from './Packs.module.scss';
+import {AddNewPackModal} from '../CustomModals/AddNewPackModal/AddNewPackModal';
+import {DoubleRangeInput} from "../DoubleRangeInput/DoubleRangeInput";
+import Typography from '@mui/material/Typography';
+import {Table} from "../Table/Table";
 
-export const Packs = () => {
+const Component = memo(() => {
 
-    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
     const {status} = useAppSelector(state => state.app)
+    const {_id} = useAppSelector(state => state.profile)
     const {
-        cardPacks,
+        packs: {cardPacks, cardPacksTotalCount, pageCount, page, maxCardsCount, minCardsCount},
         isLoaded,
-        cardPacksTotalCount,
-        pageCount,
-        page: currentPage
+        own,
+        value,
     } = useAppSelector(state => state.packs)
+
     const dispatch = useAppDispatch()
 
-    let [value, setValue] = useDebounce<string>(() => {
-        dispatch(fetchPacks({
-            packName: value,
-            pageCount: 10
-        }))
-    }, '')
+    const fetchData: GetPacksPayloadType = {
+        packName: value || '',
+        page,
+        pageCount,
+        user_id: own ? _id : undefined,
+        min: minCardsCount,
+        max: maxCardsCount,
+        sortPacks: "0created"
+    }
 
     useEffect(() => {
+        dispatch(fetchPacks(fetchData))
         return () => {
             dispatch(clearPacksData())
         }
-    }, [])
+    }, [value])
 
-    const onInputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value)
-    const onPageChange = (page: number) => dispatch(fetchPacks({packName: value, page, pageCount}))
-    const onChangePageCount = (pageCount: number) => dispatch(fetchPacks({packName: value, pageCount}))
-
-
-    const mappedPacks = cardPacks.map(el => (<Pack key={el._id} cardPack={el}/>))
-
-    const addPackHandler = () => {
-        dispatch(createPack('Mihail Krug'))
-
+    const addPackHandler = (title: string) => {
+        dispatch(createPack({
+            fetchData, data: {name: title}
+        }))
     }
 
-    if (!isLoggedIn) {
-        return <Navigate to={PATH.LOGIN}/>
+    const onPageChange = (page: number) => dispatch(fetchPacks({...fetchData, page}))
+    const onChangePageCount = (pageCount: number) => dispatch(fetchPacks({...fetchData, pageCount}))
+
+    const onchangeSliderValue = (value: number[]) => {
+        dispatch(fetchPacks({...fetchData, min: value[0], max: value[1]}))
     }
 
-    if (!isLoaded) return <img src={loader} alt="aaaa"/>
+    const onRemovePackCallback = (packId: string) => dispatch(removePack({packId, fetchData}))
+
+    const onUpdatePackHandler = (name: string, packId: string) => dispatch(updatePack({
+        fetchData,
+        data: {
+            name,
+            _id: packId
+        },
+    }))
+
+    const onChangeFilterPacks = (sortPacks: string) => dispatch(fetchPacks({...fetchData, sortPacks}))
+
+    const onMyPacksHandler = async () => {
+        if (!own) {
+            await dispatch(fetchPacks({...fetchData, user_id: _id}));
+            dispatch(setOwn(true))
+        }
+    }
+
+    const onAllPacksHandler = async () => {
+        if (own) {
+            await dispatch(fetchPacks({...fetchData, user_id: undefined}));
+            dispatch(setOwn(false))
+        }
+    }
+
+    const myClassName = `${s.belong} ${own ? s.active : ''}`
+    const allClassName = `${s.belong} ${own ? '' : s.active}`
+
+    if (!isLoaded) return <img src={loader} alt="loader"/>
 
     return (
-        <div style={{alignItems: 'center', color: 'white'}}>
-            <button onClick={addPackHandler}>ADDDD</button>
+        <div className={s.main}>
             <div>
-                <TextField
-                    className={s.textField}
-                    value={value}
-                    onChange={onInputChangeHandler}
-                    sx={{width: '200px'}}
-                    margin={'normal'}
-                    id="outlined-basic"
-                    variant="standard"
-                /> {mappedPacks}
-                <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                <DoubleRangeInput onchangeSliderValue={onchangeSliderValue}/></div>
+            <div className={s.controls}>
+                <div>
+                    <AddNewPackModal addPackHandler={addPackHandler}/>
+                </div>
+                <div className={s.belongBlock}>
+                    <Typography variant={'h6'}>
+                        Show cards packs
+                    </Typography>
+                    <div>
+                        <span onClick={onMyPacksHandler} className={myClassName}>My</span>
+                        <span onClick={onAllPacksHandler} className={allClassName}>All</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                <Input placeholder={'Search by title'}/>
+                {status === 'loading'
+                    ? <img src={loader} alt="loader"/>
+                    : <Table cardPacks={cardPacks}
+                             onChangeFilterPacks={onChangeFilterPacks}
+                             updatePack={onUpdatePackHandler}
+                             removePackCallback={onRemovePackCallback}
+                             fetchData={fetchData}
+                    />
+                }
+{/*                {status === 'loading'
+                    ? <img src={loader} alt="loader"/>
+                    : <List items={cardPacks} renderItem={(cardPack: CardPackType) =>
+                        <Pack updatePack={onUpdatePackHandler}
+                              removePack={onRemovePackHandler}
+                              key={cardPack._id}
+                              cardPack={cardPack}/>}
+                    />}*/}
+
+                <div className={s.pagination}>
                     <CustomMuiPagination
                         totalItemsCount={cardPacksTotalCount}
                         pageCount={pageCount}
-                        currentPage={currentPage}
+                        currentPage={page}
                         onSetNewPage={onPageChange}
                         disabled={status === 'loading'}
                     />
                     <CustomMuiSelect value={pageCount} onChangeOptions={onChangePageCount}/>
-
                 </div>
             </div>
         </div>
     )
-}
+})
+
+export const Packs = NotAuthRedirect(Component)

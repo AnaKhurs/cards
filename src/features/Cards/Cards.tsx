@@ -1,42 +1,79 @@
-import React, {useEffect} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../bll/store';
-import {clearCardsData, fetchCards} from '../../bll/cards-reducer';
+import {CardType, clearCardsData, createCard, deleteCard, fetchCards, setGrade, updateCard} from '../../bll/cards-reducer';
 import loader from '../../common/img/loader.gif';
 import {Card} from './Card/Card';
 import s from './Cards.module.scss'
 import {CustomMuiPagination} from '../Pagination/CustomMuiPagination';
 import {CustomMuiSelect} from '../Select/CustomMuiSelect';
-import {Navigate, useParams} from 'react-router-dom';
-import {PATH} from '../../utils/paths';
+import {useParams} from 'react-router-dom';
+import {NotAuthRedirect} from '../../hoc/NotAuthRedirect';
+import {List} from "../List/List";
+import {CreateCardRequestType, GetCardsRequestType} from '../../dal/cards-api';
+import {AddNewCardModal} from '../CustomModals/AddNewCardModal/AddNewCardModal';
 
-export const Cards = () => {
-    debugger
+const Component = memo(() => {
+
     const {cardsPack_id} = useParams()
     const {cardsData, packId, isLoaded} = useAppSelector(state => state.cards)
     const {status} = useAppSelector(state => state.app)
-    const {isLoggedIn} = useAppSelector(state => state.login)
+    const {_id} = useAppSelector(state => state.profile)
 
     const {cards, cardsTotalCount, pageCount, page, minGrade, maxGrade, packUserId} = cardsData
 
     const dispatch = useAppDispatch()
 
-    const onSetNewPageHandler = (value: number) => packId && dispatch(fetchCards({packId, data: {page: value, pageCount}}))
-    const onChangeOptionsHandler = (value: number) => packId && dispatch(fetchCards({packId, data: {page, pageCount: value}}))
+    const fetchData: GetCardsRequestType = {
+        cardsPack_id: packId!,
+        page,
+        pageCount,
+    }
+
+    const onCreateCardHandler = (question: string, answer: string) => dispatch(createCard({
+        fetchData,
+        data: {
+            cardsPack_id: cardsPack_id || packId!, question, answer,
+        }
+    }))
+
+    const onSetNewPageHandler = (value: number) => dispatch(fetchCards({...fetchData, page: value}))
+
+    const onChangeOptionsHandler = (value: number) => dispatch(fetchCards({...fetchData, pageCount: value}))
+
+    const onDeleteCardHandler = (cardId: string) => dispatch(deleteCard({fetchData, cardId}))
+
+    const onUpdateCardHandler = (cardId: string, question: string, answer: string) => dispatch(updateCard({
+        fetchData: {
+            ...fetchData,
+            cardsPack_id: packId!,
+        },
+        data: {
+            _id: cardId,
+            question,
+            answer,
+        }
+    }))
+
+    const onSetGradeHandler = (grade: number, card_id: string) => dispatch(setGrade({
+        fetchData,
+        data: {
+            grade, card_id
+        }
+    }))
+
 
     useEffect(() => {
         if (packId) {
             dispatch(fetchCards({
-                packId, data: {
-                    pageCount,
-                    cardAnswer: '',
-                }
+                cardsPack_id: packId,
+                pageCount,
+                cardAnswer: '',
             }))
         } else {
             cardsPack_id && dispatch(fetchCards({
-                packId: cardsPack_id, data: {
-                    pageCount,
-                    cardAnswer: '',
-                }
+                cardsPack_id,
+                pageCount,
+                cardAnswer: '',
             }))
         }
         return () => {
@@ -44,25 +81,22 @@ export const Cards = () => {
         }
     }, [])
 
-    if (!isLoggedIn) return <Navigate to={PATH.LOGIN}/>
-
     if (!isLoaded) return <img src={loader} alt="aaaa"/>
 
     return (
         <div className={s.cardsContainer}>
+            {_id === packUserId && <AddNewCardModal addCardHandler={onCreateCardHandler}/>}
             {
                 cards.length > 0
                     ? (<>
-                        {/*<TextField*/}
-                        {/*    className={s.textField}*/}
-                        {/*    value={value}*/}
-                        {/*    onChange={onInputChangeHandler}*/}
-                        {/*    sx={{width: '200px'}}*/}
-                        {/*    margin={'normal'}*/}
-                        {/*    id="outlined-basic"*/}
-                        {/*    variant="standard"/>*/}
-                        {cards.map(({answer, question, updated, grade, _id}) =>
-                            <Card key={updated} _id={_id} answer={answer} grade={grade} question={question} updated={updated}/>)}
+                        <List items={cards} renderItem={(card: CardType) => <Card key={card.updated}
+                            onSetGradeHandler={onSetGradeHandler}
+                            userId={_id}
+                            packUserId={packUserId!}
+                            updateCard={onUpdateCardHandler}
+                            deleteCard={onDeleteCardHandler}
+                            card={card}/>}
+                        />
                         <div style={{display: 'flex', alignSelf: 'flex-start'}}>
                             <CustomMuiPagination
                                 onSetNewPage={onSetNewPageHandler}
@@ -74,10 +108,10 @@ export const Cards = () => {
                             <CustomMuiSelect value={pageCount} onChangeOptions={onChangeOptionsHandler}/>
                         </div>
                     </>)
-                    : (
-                        <span style={{fontSize: '70px'}}>no packs</span>
-                    )
+                    : <span style={{fontSize: '70px'}}>no packs</span>
             }
         </div>
     )
-}
+});
+
+export const Cards = NotAuthRedirect(Component)

@@ -1,34 +1,39 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {CardPackType, packsApi, PayloadType} from '../dal/packs-api';
+import {CardPackType, GetPacksPayloadType, AddPackRequestType, packsApi, UpdatePackRequestType} from '../dal/packs-api';
 import {setAppError, setAppStatus} from './app-reducer';
 
-const cardsSlice = createSlice({
+const packsSlice = createSlice({
         name: 'packs',
         initialState: {
-            cardPacks: [] as CardPackType[],
+            packs: {
+                cardPacks: [] as CardPackType[],
+                cardPacksTotalCount: 0 as number,
+                maxCardsCount: 103 as number,
+                minCardsCount: 0 as number,
+                page: 1 as number,
+                pageCount: 10 as number,
+            },
+            value: null as string | null,
             isLoaded: false,
-            cardPacksTotalCount: 0 as number,
-            maxCardsCount: 0 as number,
-            minCardsCount: 0 as number,
-            page: 0 as number,
-            pageCount: 10 as number
+            own: false,
         },
         reducers: {
             clearPacksData(state) {
-                state.cardPacks = []
+                state.packs.cardPacks = []
                 state.isLoaded = false
             },
-            deletePack(state, action: PayloadAction<string>) {
-                state.cardPacks = state.cardPacks.filter(item => item._id !== action.payload)
+            setOwn(state, action: PayloadAction<boolean>) {
+                state.own = action.payload
             },
-            addPack(state, action: PayloadAction<{pack : CardPackType}>) {
-                state.cardPacks.unshift({...action.payload.pack})
-            }
+            setSearchValue(state, action: PayloadAction<string>) {
+                state.value = action.payload
+            },
         },
         extraReducers: builder => {
             builder.addCase(fetchPacks.fulfilled, (state, action) => {
                 if (action.payload) {
-                    return {...action.payload, isLoaded: true}
+                    state.packs = action.payload
+                    state.isLoaded = true
                 }
             })
         }
@@ -39,7 +44,7 @@ const cardsSlice = createSlice({
 //Thunk
 export const fetchPacks = createAsyncThunk(
     'packs/fetchCards',
-    async (data: PayloadType, {dispatch, rejectWithValue}) => {
+    async (data: GetPacksPayloadType, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatus('loading'))
         try {
             const res = await packsApi.getPack(data)
@@ -59,14 +64,13 @@ export const fetchPacks = createAsyncThunk(
 
 export const createPack = createAsyncThunk(
     'packs/createPack',
-    async (name: string, {dispatch}) => {
+    async ({fetchData, data}: { fetchData: GetPacksPayloadType, data: AddPackRequestType }, {dispatch}) => {
+        debugger
         try {
             dispatch(setAppStatus('loading'))
-            const res = await packsApi.addPack(name)
-            debugger
-            dispatch(addPack({pack:res.data.newCardsPack}))
+            const res = await packsApi.addPack(data)
+            await dispatch(fetchPacks(fetchData))
             dispatch(setAppStatus('succeeded'))
-            console.log(res)
         } catch (e: any) {
             const error = e.response
                 ? e.response.data.error
@@ -79,14 +83,12 @@ export const createPack = createAsyncThunk(
 
 export const removePack = createAsyncThunk(
     'packs/deletePack',
-    async (_id: string, {dispatch}) => {
+    async ({fetchData, packId}: { fetchData: GetPacksPayloadType, packId: string }, {dispatch}) => {
         try {
             dispatch(setAppStatus('loading'))
-            const res = await packsApi.deletePack(_id)
+            const res = await packsApi.deletePack(packId)
+            await dispatch(fetchPacks(fetchData))
             dispatch(setAppStatus('succeeded'))
-            debugger
-            dispatch(deletePack(res.data.deletedCardsPack._id))
-            console.log(res)
         } catch (e: any) {
             const error = e.response
                 ? e.response.data.error
@@ -99,10 +101,11 @@ export const removePack = createAsyncThunk(
 
 export const updatePack = createAsyncThunk(
     'packs/updatePack',
-    async (params: { name: string, _id: string }, {dispatch}) => {
+    async ({fetchData, data}: { fetchData: GetPacksPayloadType, data: UpdatePackRequestType }, {dispatch}) => {
         try {
             dispatch(setAppStatus('loading'))
-            await packsApi.updatePack(params.name, params._id)
+            await packsApi.updatePack(data)
+            let res = await dispatch(fetchPacks(fetchData))
             dispatch(setAppStatus('succeeded'))
         } catch (e: any) {
             const error = e.response
@@ -115,6 +118,6 @@ export const updatePack = createAsyncThunk(
 )
 
 
-export const {clearPacksData, deletePack,addPack} = cardsSlice.actions
+export const {clearPacksData, setOwn, setSearchValue} = packsSlice.actions
 
-export const packsReducer = cardsSlice.reducer
+export const packsReducer = packsSlice.reducer

@@ -29,11 +29,9 @@ export const Header = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-
     const logoutHandler = () => {
         dispatch(logoutTC())
     }
-
 
     return (
         <AppBar position="fixed" sx={{backgroundColor: 'gray', width: '100%'}}>
@@ -86,7 +84,6 @@ export const Header = () => {
                         </IconButton>
                     </div>
                     }
-
                 </Box>
             </Toolbar>
         </AppBar>

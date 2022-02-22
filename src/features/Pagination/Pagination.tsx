@@ -10,7 +10,7 @@ type PropsType = {
 
 export const Pagination: FC<PropsType> = ({portionSize, onSetNewPage}) => {
 
-    const {cardPacksTotalCount, pageCount, page: currentPage} = useAppSelector(state => state.packs)
+    const {packs: {cardPacksTotalCount, pageCount, page: currentPage}} = useAppSelector(state => state.packs)
 
     let [portionNumber, setPortionNumber] = useState(1)
 

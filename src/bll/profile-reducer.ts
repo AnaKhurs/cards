@@ -38,7 +38,7 @@ export const changeUserDataTC = createAsyncThunk(
 
 type InitStateType = ProfileType
 
-export type ProfileType = Pick<LoginResponseType, 'name' | 'avatar' | 'publicCardPacksCount' | 'email'>
+export type ProfileType = Pick<LoginResponseType, 'name' | 'avatar' | 'publicCardPacksCount' | 'email' | '_id'>
 
 export const {setUserProfile, setUserData} = profileSlice.actions
 

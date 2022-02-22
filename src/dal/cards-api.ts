@@ -1,22 +1,31 @@
 import {instance} from './instance';
-import {CardsType} from '../bll/cards-reducer';
+import {CardType} from '../bll/cards-reducer';
 
 export const cardsAPI = {
-    getCards(cardsPack_id: string, data?: GetCardsRequestType) {
-        return instance.get<GetCardsResponseType<CardsType[]>>(`cards/card?cardsPack_id=${cardsPack_id}`, {params: data})
+    getCards(data: GetCardsRequestType) {
+        return instance.get<GetCardsResponseType<CardType[]>>(`cards/card`, {params: data})
     },
-    createCard(cardsPack_id: string, data?: CreateCardRequestType) {
-        return instance.post(`cards/card?cardsPack_id=${cardsPack_id}`, data, {params: data})
+    createCard(data: CreateCardRequestType) {
+        return instance.post(`cards/card`, {card: data})
     },
     deleteCard(cardId: string) {
         return instance.delete(`cards/card?id=${cardId}`)
     },
     updateCard(data: UpdateTaskRequestType) {
-        return instance.put(`cards/card`, data)
+        return instance.put(`cards/card`, {card: data})
+    },
+    setGrade(data: GradeRequestType) {
+        return instance.put(`cards/grade`, data)
     }
 }
 
+export type GradeRequestType = {
+    card_id: string,
+    grade: number,
+}
+
 export type CreateCardRequestType = {
+    cardsPack_id: string
     question?: string,
     answer?: string,
     grade?: number,
@@ -30,6 +39,7 @@ export type CreateCardRequestType = {
 }
 
 export type GetCardsRequestType = {
+    cardsPack_id: string,
     cardQuestion?: string,
     cardAnswer?: string,
     min?: number,
@@ -54,5 +64,6 @@ export type GetCardsResponseType<D> = {
 export type UpdateTaskRequestType = {
     _id: string,
     question?: string,
+    answer?: string,
     comment?: string,
 }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -9,30 +9,26 @@ import Typography from '@mui/material/Typography';
 
 import {useAppDispatch, useAppSelector} from '../../../bll/store';
 import {changeUserDataTC, ProfileType} from '../../../bll/profile-reducer';
-import {initializeApp, StatusType} from '../../../bll/app-reducer';
+import {StatusType} from '../../../bll/app-reducer';
 import {EditableSpan} from '../../EditableSpan/EditableSpan';
 import UserPhoto from '../../../common/img/photo_2022-02-06_16-28-54.png'
 import Avatar from '@mui/material/Avatar/Avatar';
 import {PATH} from '../../../utils/paths';
 import LoadingStatusBackdrop from "../../LoadingBackDrop/BackDrop";
+import {NotAuthRedirect} from '../../../hoc/NotAuthRedirect';
 
 
-export const ProfilePage = React.memo(() => {
+const Component = React.memo(() => {
 
         const [myName, setMyName] = useState<string>('')
         const [myAvatar, setMyAvatar] = useState<string | undefined>(undefined)
 
         const user = useAppSelector<ProfileType>(state => state.profile)
         const status = useAppSelector<StatusType>(state => state.app.status)
-        const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
         const {avatar, name, email} = user
 
         const dispatch = useAppDispatch()
         const navigate = useNavigate()
-
-        useEffect(() => {
-            dispatch(initializeApp())
-        }, [])
 
         useEffect(() => {
             setMyName(name)
@@ -55,10 +51,6 @@ export const ProfilePage = React.memo(() => {
 
         const navigateToMainHandler =() => {
             navigate(PATH.MAIN)
-        }
-
-        if (!isLoggedIn) {
-            return <Navigate to={PATH.LOGIN}/>
         }
 
         return (<>
@@ -90,3 +82,4 @@ export const ProfilePage = React.memo(() => {
     }
 );
 
+export const ProfilePage = NotAuthRedirect(Component)

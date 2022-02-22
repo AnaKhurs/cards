@@ -1,0 +1,144 @@
+.button {
+  border: none;
+  outline: none;
+  color: #2c3163;
+  background-color: #ccc6ff;
+  border-radius: 2px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  user-select: none;
+
+  &:hover {
+    color: #f1f1ff;
+    background-color: #9591e4;
+  }
+
+  &:active {
+    color: #2a2a54;
+    background-color: rgba(204, 198, 255, 0.47);
+  }
+
+  &:disabled {
+    color: rgba(29,24,80,0.43);
+    background-color: rgba(204, 198, 255, 0.35);
+  }
+}
+
+.errorButton {
+  border: none;
+  outline: none;
+  color: rgb(255, 211, 211);
+  background-color: #dc0500;
+  border-radius: 2px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  user-select: none;
+
+  &:hover {
+    color: #ff0f00;
+    background-color: white;
+  }
+
+  &:active {
+    color: #ffe4e9;
+    background-color: rgba(255,33,30,0.87);
+  }
+
+  &:disabled {
+    color: rgba(240,225,228,0.87);
+    background-color: rgba(255,107,115,0.87);
+  }
+}
+
+.wideButton {
+  cursor: pointer;
+  color: #2c3163;
+  background-color: #ccc6ff;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  font-size: 16px;
+  padding: 7px 30px;
+  transition: all 0.2s ease;
+  margin: 5px;
+  user-select: none;
+
+  &:hover {
+    color: #f1f1ff;
+    background-color: #9591e4;
+  }
+
+  &:active {
+    color: #2a2a54;
+    background-color: rgba(204, 198, 255, 0.47);
+  }
+
+  &:disabled {
+    color: rgba(29,24,80,0.43);
+    background-color: rgba(204, 198, 255, 0.35);
+  }
+}
+
+.wideErrorButton {
+  cursor: pointer;
+  color: rgb(255, 211, 211);
+  background-color: #dc0500;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  font-size: 16px;
+  padding: 7px 30px;
+  transition: all 0.2s ease;
+  margin: 5px;
+  user-select: none;
+
+  &:hover {
+    color: #ff0f00;
+    background-color: white;
+  }
+
+  &:active {
+    color: #ffe4e9;
+    background-color: rgba(255,33,30,0.87);
+  }
+
+  &:disabled {
+    color: rgba(240,225,228,0.87);
+    background-color: rgba(255,107,115,0.87);
+  }
+}
+
+.applyWideButton {
+  cursor: pointer;
+  color: rgba(232,226,255,0.92);
+  background-color: #2c3163;
+  border: none;
+  outline: none;
+  border-radius: 50px;
+  font-size: 16px;
+  padding: 7px 30px;
+  transition: all 0.2s ease;
+  margin: 5px;
+  user-select: none;
+
+  &:hover {
+    color: rgba(6,7,44,0.92);
+    background-color: rgba(152,150,226,0.92);
+  }
+
+  &:active {
+    color: rgba(231,224,255,0.92);
+    background-color: #252361;
+  }
+
+  &:disabled {
+    color: rgba(100,93,102,0.62);
+    background-color: rgba(134,138,239,0.62);
+  }
+}
