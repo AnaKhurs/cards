@@ -13,7 +13,7 @@ import s from './Packs.module.scss';
 import {AddNewPackModal} from '../CustomModals/AddNewPackModal/AddNewPackModal';
 import {DoubleRangeInput} from "../DoubleRangeInput/DoubleRangeInput";
 import Typography from '@mui/material/Typography';
-import {Table} from "../Table/Table";
+import {TablePacks} from "../TablePacks/TablePacks";
 
 const Component = memo(() => {
 
@@ -112,11 +112,11 @@ const Component = memo(() => {
                 <Input placeholder={'Search by title'}/>
                 {status === 'loading'
                     ? <img src={loader} alt="loader"/>
-                    : <Table cardPacks={cardPacks}
-                             onChangeFilterPacks={onChangeFilterPacks}
-                             updatePack={onUpdatePackHandler}
-                             removePackCallback={onRemovePackCallback}
-                             fetchData={fetchData}
+                    : <TablePacks cardPacks={cardPacks}
+                                  onChangeFilterPacks={onChangeFilterPacks}
+                                  updatePack={onUpdatePackHandler}
+                                  removePackCallback={onRemovePackCallback}
+                                  fetchData={fetchData}
                     />
                 }
 {/*                {status === 'loading'

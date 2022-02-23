@@ -1,17 +1,20 @@
 import React from 'react';
 import {CardPackType, GetPacksPayloadType, sortValues} from "../../dal/packs-api";
+import {useAppDispatch, useAppSelector} from "../../bll/store";
+import {setPackId} from "../../bll/cards-reducer";
+import {NavLink, useNavigate} from "react-router-dom";
+import {PATH} from "../../utils/paths";
+
+import {DeletePackModal} from "../CustomModals/DeleteModal/DeletePackModal";
+import {EditPackModal} from "../CustomModals/EditPackModal/EditPackModal";
+
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import IconButton from "@mui/material/IconButton";
-import s from "../Packs/Pack/Pack.module.scss";
-import {DeletePackModal} from "../CustomModals/DeleteModal/DeletePackModal";
-import {EditPackModal} from "../CustomModals/EditPackModal/EditPackModal";
+
 import c from "../../common/styles/Common.module.scss";
-import {useAppDispatch, useAppSelector} from "../../bll/store";
-import {removePack, updatePack} from "../../bll/packs-reducer";
-import {NavLink, useNavigate} from "react-router-dom";
-import {setPackId} from "../../bll/cards-reducer";
-import {PATH} from "../../utils/paths";
+import s from "../Packs/Pack/Pack.module.scss";
+
 
 type PropsType = {
     cardPacks: CardPackType[]
@@ -21,18 +24,11 @@ type PropsType = {
     fetchData: GetPacksPayloadType
 }
 
-
-export const Table = (props: PropsType) => {
+export const TablePacks = (props: PropsType) => {
 
     const {status} = useAppSelector(state => state.app)
     const {_id} = useAppSelector(state => state.profile)
     const profileId = useAppSelector(state => state.profile._id)
-    const {
-        packs: {pageCount, page, maxCardsCount, minCardsCount},
-        own,
-        value,
-    } = useAppSelector(state => state.packs)
-
 
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -41,20 +37,7 @@ export const Table = (props: PropsType) => {
         navigate(PATH.CARDS + `/${_id}`)
     }
 
-    /*
-        const fetchData: GetPacksPayloadType = {
-            packName: value || '',
-            page,
-            pageCount,
-            user_id: own ? _id : undefined,
-            min: minCardsCount,
-            max: maxCardsCount,
-            sortPacks: "0created"
-        }
-    */
-
     const onRemovePackHandler = (packId: string) => props.removePackCallback(packId)
-
 
     return (
         <table>
@@ -109,7 +92,7 @@ export const Table = (props: PropsType) => {
 
             {props.cardPacks.map(item => (
                 <tr key={item._id}>
-                    <NavLink to={PATH.CARDS + `/${_id}`}>
+                    <NavLink to={PATH.CARDS + `/${item._id}`}>
                         <div style={{width: '140px', marginRight: '10px'}}>{item.name}</div>
                     </NavLink>
                     <td>{item.cardsCount}</td>

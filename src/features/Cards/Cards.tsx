@@ -1,6 +1,14 @@
 import React, {memo, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../bll/store';
-import {CardType, clearCardsData, createCard, deleteCard, fetchCards, setGrade, updateCard} from '../../bll/cards-reducer';
+import {
+    CardType,
+    clearCardsData,
+    createCard,
+    deleteCard,
+    fetchCards,
+    setGrade,
+    updateCard
+} from '../../bll/cards-reducer';
 import loader from '../../common/img/loader.gif';
 import {Card} from './Card/Card';
 import s from './Cards.module.scss'
@@ -11,6 +19,7 @@ import {NotAuthRedirect} from '../../hoc/NotAuthRedirect';
 import {List} from "../List/List";
 import {CreateCardRequestType, GetCardsRequestType} from '../../dal/cards-api';
 import {AddNewCardModal} from '../CustomModals/AddNewCardModal/AddNewCardModal';
+import {TableCards} from "../TableCards/TableCards";
 
 const Component = memo(() => {
 
@@ -89,14 +98,22 @@ const Component = memo(() => {
             {
                 cards.length > 0
                     ? (<>
-                        <List items={cards} renderItem={(card: CardType) => <Card key={card.updated}
-                            onSetGradeHandler={onSetGradeHandler}
-                            userId={_id}
-                            packUserId={packUserId!}
-                            updateCard={onUpdateCardHandler}
-                            deleteCard={onDeleteCardHandler}
-                            card={card}/>}
+                        <TableCards items={cards}
+                                    onSetGradeHandler={onSetGradeHandler}
+                                    updateCard={onUpdateCardHandler}
+                                    deleteCard={onDeleteCardHandler}
+                                    packUserId={packUserId!}
+                                    userId={_id}
                         />
+
+{/*                        <List items={cards} renderItem={(card: CardType) => <Card key={card.updated}
+                                                                                  onSetGradeHandler={onSetGradeHandler}
+                                                                                  userId={_id}
+                                                                                  packUserId={packUserId!}
+                                                                                  updateCard={onUpdateCardHandler}
+                                                                                  deleteCard={onDeleteCardHandler}
+                                                                                  card={card}/>}
+                        />*/}
                         <div style={{display: 'flex', alignSelf: 'flex-start'}}>
                             <CustomMuiPagination
                                 onSetNewPage={onSetNewPageHandler}
