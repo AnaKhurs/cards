@@ -16,6 +16,8 @@ const packsSlice = createSlice({
             value: null as string | null,
             isLoaded: false,
             own: false,
+            sliderValue: [] as number[],
+            sortValue: '0created' as string
         },
         reducers: {
             clearPacksData(state) {
@@ -28,6 +30,12 @@ const packsSlice = createSlice({
             setSearchValue(state, action: PayloadAction<string>) {
                 state.value = action.payload
             },
+            setSliderValue(state, action: PayloadAction<number[]>) {
+                state.sliderValue = action.payload
+            },
+            setSortValue(state, action: PayloadAction<string>) {
+                state.sortValue = action.payload
+            }
         },
         extraReducers: builder => {
             builder.addCase(fetchPacks.fulfilled, (state, action) => {
@@ -39,7 +47,6 @@ const packsSlice = createSlice({
         }
     },
 )
-
 
 //Thunk
 export const fetchPacks = createAsyncThunk(
@@ -65,7 +72,6 @@ export const fetchPacks = createAsyncThunk(
 export const createPack = createAsyncThunk(
     'packs/createPack',
     async ({fetchData, data}: { fetchData: GetPacksPayloadType, data: AddPackRequestType }, {dispatch}) => {
-        debugger
         try {
             dispatch(setAppStatus('loading'))
             const res = await packsApi.addPack(data)
@@ -117,7 +123,6 @@ export const updatePack = createAsyncThunk(
     }
 )
 
-
-export const {clearPacksData, setOwn, setSearchValue} = packsSlice.actions
+export const {clearPacksData, setOwn, setSearchValue, setSliderValue, setSortValue} = packsSlice.actions
 
 export const packsReducer = packsSlice.reducer

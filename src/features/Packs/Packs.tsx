@@ -1,22 +1,30 @@
 import React, {memo, useEffect} from 'react';
+import {GetPacksPayloadType} from '../../dal/packs-api';
 import {useAppDispatch, useAppSelector} from '../../bll/store';
-import {Pack} from './Pack/Pack';
-import loader from '../../common/img/loader.gif';
+import {
+    clearPacksData,
+    createPack,
+    fetchPacks,
+    removePack,
+    setOwn,
+    setSliderValue,
+    setSortValue,
+    updatePack
+} from '../../bll/packs-reducer';
+
 import {CustomMuiPagination} from '../Pagination/CustomMuiPagination';
 import {CustomMuiSelect} from '../Select/CustomMuiSelect';
-import {clearPacksData, createPack, fetchPacks, removePack, setOwn, updatePack} from '../../bll/packs-reducer';
-import {NotAuthRedirect} from '../../hoc/NotAuthRedirect';
-import {Input} from './Input/Input';
-import {CardPackType, GetPacksPayloadType} from '../../dal/packs-api';
-import {List} from "../List/List";
-import s from './Packs.module.scss';
-import {AddNewPackModal} from '../CustomModals/AddNewPackModal/AddNewPackModal';
-import {DoubleRangeInput} from "../DoubleRangeInput/DoubleRangeInput";
-import Typography from '@mui/material/Typography';
+import {Input} from '../Input/Input';
 import {TablePacks} from "../TablePacks/TablePacks";
+import {DoubleRangeInput} from "../DoubleRangeInput/DoubleRangeInput";
+import {NotAuthRedirect} from '../../hoc/NotAuthRedirect';
+import {AddNewPackModal} from '../CustomModals/AddNewPackModal/AddNewPackModal';
+
+import Typography from '@mui/material/Typography';
+import loader from '../../common/img/loader.gif';
+import s from './Packs.module.scss';
 
 const Component = memo(() => {
-
     const {status} = useAppSelector(state => state.app)
     const {_id} = useAppSelector(state => state.profile)
     const {
@@ -24,6 +32,8 @@ const Component = memo(() => {
         isLoaded,
         own,
         value,
+        sliderValue,
+        sortValue
     } = useAppSelector(state => state.packs)
 
     const dispatch = useAppDispatch()
@@ -35,7 +45,7 @@ const Component = memo(() => {
         user_id: own ? _id : undefined,
         min: minCardsCount,
         max: maxCardsCount,
-        sortPacks: "0created"
+        sortPacks: sortValue
     }
 
     useEffect(() => {
@@ -51,12 +61,21 @@ const Component = memo(() => {
         }))
     }
 
-    const onPageChange = (page: number) => dispatch(fetchPacks({...fetchData, page}))
-    const onChangePageCount = (pageCount: number) => dispatch(fetchPacks({...fetchData, pageCount}))
-
-    const onchangeSliderValue = (value: number[]) => {
-        dispatch(fetchPacks({...fetchData, min: value[0], max: value[1]}))
+    const onPageChange = (page: number) => {
+        dispatch(fetchPacks({
+            ...fetchData,
+            page,
+            min: sliderValue[0],
+            max: sliderValue[1],
+            sortPacks: sortValue
+        }))
     }
+    const onChangePageCount = (pageCount: number) => dispatch(fetchPacks({
+        ...fetchData,
+        pageCount,
+        min: sliderValue[0],
+        max: sliderValue[1]
+    }))
 
     const onRemovePackCallback = (packId: string) => dispatch(removePack({packId, fetchData}))
 
@@ -68,11 +87,34 @@ const Component = memo(() => {
         },
     }))
 
-    const onChangeFilterPacks = (sortPacks: string) => dispatch(fetchPacks({...fetchData, sortPacks}))
+    const onchangeSliderValue = (value: number[]) => {
+        dispatch(setSliderValue(value))
+        dispatch(fetchPacks({...fetchData, min: value[0], max: value[1]}))
+    }
+
+    const handler = (value: string) => {
+        console.log('value')
+        console.log(value)
+        onChangeFilterPacks(value)
+    }
+
+
+    const onChangeFilterPacks = (sortPacks: string) => {
+        console.log('sortPacks')
+        console.log(sortPacks)
+        dispatch(setSortValue(sortPacks))
+        dispatch(fetchPacks({
+            ...fetchData,
+            sortPacks,
+            min: sliderValue[0],
+            max: sliderValue[1]
+        }))
+    };
+
 
     const onMyPacksHandler = async () => {
         if (!own) {
-            await dispatch(fetchPacks({...fetchData, user_id: _id}));
+            await dispatch(fetchPacks({...fetchData, user_id: _id, page: 1}));
             dispatch(setOwn(true))
         }
     }
@@ -112,22 +154,13 @@ const Component = memo(() => {
                 <Input placeholder={'Search by title'}/>
                 {status === 'loading'
                     ? <img src={loader} alt="loader"/>
-                    : <TablePacks cardPacks={cardPacks}
+                    : <TablePacks handler={handler}
+                                  cardPacks={cardPacks}
                                   onChangeFilterPacks={onChangeFilterPacks}
                                   updatePack={onUpdatePackHandler}
                                   removePackCallback={onRemovePackCallback}
-                                  fetchData={fetchData}
                     />
                 }
-{/*                {status === 'loading'
-                    ? <img src={loader} alt="loader"/>
-                    : <List items={cardPacks} renderItem={(cardPack: CardPackType) =>
-                        <Pack updatePack={onUpdatePackHandler}
-                              removePack={onRemovePackHandler}
-                              key={cardPack._id}
-                              cardPack={cardPack}/>}
-                    />}*/}
-
                 <div className={s.pagination}>
                     <CustomMuiPagination
                         totalItemsCount={cardPacksTotalCount}

@@ -11,6 +11,10 @@ export enum sortValues {
     gradeFalse = "1grade",
     createdTrue = "0created",
     createdFalse = "1created",
+    answerTrue = "0answer",
+    answerFalse = "1answer",
+    questionTrue = "0question",
+    questionFalse = "1question",
 }
 
 export type GetPacksPayloadType = {

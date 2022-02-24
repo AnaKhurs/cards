@@ -1,9 +1,9 @@
-import s from '../../Pages/LoginPage/LoginPage.module.scss';
+import s from '../Pages/LoginPage/LoginPage.module.scss';
 import {TextField} from '@mui/material';
 import React, {ChangeEvent, memo, useCallback, useEffect, useState} from 'react';
-import {setSearchValue} from '../../../bll/packs-reducer';
-import {useAppDispatch, useAppSelector} from '../../../bll/store';
-import {useDebounce} from '../../../utils/debounce';
+import {setSearchValue} from '../../bll/packs-reducer';
+import {useAppDispatch, useAppSelector} from '../../bll/store';
+import {useDebounce} from '../../utils/debounce';
 
 type PropsType = {
     placeholder: string,

@@ -44,7 +44,7 @@ export type GetCardsRequestType = {
     cardAnswer?: string,
     min?: number,
     max?: number,
-    sortCards?: number,
+    sortCards?: string,
     page?: number,
     pageCount?: number,
 }

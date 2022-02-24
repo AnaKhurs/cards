@@ -1,25 +1,16 @@
 import React, {memo, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../bll/store';
-import {
-    CardType,
-    clearCardsData,
-    createCard,
-    deleteCard,
-    fetchCards,
-    setGrade,
-    updateCard
-} from '../../bll/cards-reducer';
+import {clearCardsData, createCard, deleteCard, fetchCards, setGrade, updateCard} from '../../bll/cards-reducer';
 import loader from '../../common/img/loader.gif';
-import {Card} from './Card/Card';
 import s from './Cards.module.scss'
 import {CustomMuiPagination} from '../Pagination/CustomMuiPagination';
 import {CustomMuiSelect} from '../Select/CustomMuiSelect';
 import {useParams} from 'react-router-dom';
 import {NotAuthRedirect} from '../../hoc/NotAuthRedirect';
-import {List} from "../List/List";
-import {CreateCardRequestType, GetCardsRequestType} from '../../dal/cards-api';
+import {GetCardsRequestType} from '../../dal/cards-api';
 import {AddNewCardModal} from '../CustomModals/AddNewCardModal/AddNewCardModal';
 import {TableCards} from "../TableCards/TableCards";
+import {fetchPacks} from "../../bll/packs-reducer";
 
 const Component = memo(() => {
 
@@ -36,6 +27,7 @@ const Component = memo(() => {
         cardsPack_id: packId!,
         page,
         pageCount,
+        sortCards: "",
     }
 
     const onCreateCardHandler = (question: string, answer: string) => dispatch(createCard({
@@ -69,6 +61,8 @@ const Component = memo(() => {
             grade, card_id
         }
     }))
+
+    const onChangeFilterCards = (sortCards: string) => dispatch(fetchCards({...fetchData, sortCards}))
 
 
     useEffect(() => {
@@ -104,6 +98,7 @@ const Component = memo(() => {
                                     deleteCard={onDeleteCardHandler}
                                     packUserId={packUserId!}
                                     userId={_id}
+                                    onChangeFilterCards={onChangeFilterCards}
                         />
 
 {/*                        <List items={cards} renderItem={(card: CardType) => <Card key={card.updated}
