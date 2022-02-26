@@ -17,15 +17,13 @@ type PropsType = {
     onChangeFilterPacks: (sortPacks: string) => void
     removePackCallback: (_id: string) => void
     updatePack: (name: string, _id: string) => void
-    handler:(value: string) => void
 }
 
 export const TablePacks = React.memo(({
                                           cardPacks,
                                           onChangeFilterPacks,
                                           removePackCallback,
-                                          updatePack,
-                                          handler
+                                          updatePack
                                       }: PropsType) => {
 
     const profileId = useAppSelector(state => state.profile._id)
@@ -44,39 +42,22 @@ export const TablePacks = React.memo(({
             <thead>
             <tr>
                 <th>Name
-                    <ButtonSort onChangeFilterPacks={onChangeFilterPacks} sortValue={"name"}
-                                handler={handler}/>
-{/*                    <IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.nameFalse)}>
-                        <ArrowDropUpIcon/>
-                    </IconButton>
-                    <IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.nameTrue)}>
-                        <ArrowDropDownIcon/>
-                    </IconButton>*/}
+                    <ButtonSort onChangeFilterPacks={onChangeFilterPacks} sortTableColumn={"name"}/>
                 </th>
                 <th>Cards
-                    <IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.cardsCountFalse)}>
-                        <ArrowDropUpIcon/>
-                    </IconButton>
-                    <IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.cardsCountTrue)}>
-                        <ArrowDropDownIcon/>
-                    </IconButton>
+                    <ButtonSort onChangeFilterPacks={onChangeFilterPacks} sortTableColumn={"cardsCount"}/>
                 </th>
-
                 <th>Last Updated
-                    <IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.updatedFalse)}>
-                        <ArrowDropUpIcon/>
-                    </IconButton>
-                    <IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.updatedTrue)}>
-                        <ArrowDropDownIcon/>
-                    </IconButton>
+                    <ButtonSort onChangeFilterPacks={onChangeFilterPacks} sortTableColumn={"updated"}/>
                 </th>
                 <th>Created by
-                    <IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.createdFalse)}>
+                    <ButtonSort onChangeFilterPacks={onChangeFilterPacks} sortTableColumn={"created"}/>
+                    {/*<IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.createdFalse)}>
                         <ArrowDropUpIcon/>
                     </IconButton>
                     <IconButton size={'small'} onClick={() => onChangeFilterPacks(sortValues.createdTrue)}>
                         <ArrowDropDownIcon/>
-                    </IconButton>
+                    </IconButton>*/}
                 </th>
                 <th>Action</th>
             </tr>

@@ -17,7 +17,8 @@ const packsSlice = createSlice({
             isLoaded: false,
             own: false,
             sliderValue: [] as number[],
-            sortValue: '0created' as string
+            sortValue: '0created' as string,
+            sortDirection: '0'  as string,
         },
         reducers: {
             clearPacksData(state) {
@@ -35,6 +36,9 @@ const packsSlice = createSlice({
             },
             setSortValue(state, action: PayloadAction<string>) {
                 state.sortValue = action.payload
+            },
+            setSortDirection(state, action: PayloadAction<string>) {
+                state.sortDirection = action.payload
             }
         },
         extraReducers: builder => {
@@ -123,6 +127,6 @@ export const updatePack = createAsyncThunk(
     }
 )
 
-export const {clearPacksData, setOwn, setSearchValue, setSliderValue, setSortValue} = packsSlice.actions
+export const {clearPacksData, setOwn, setSearchValue, setSliderValue, setSortValue, setSortDirection} = packsSlice.actions
 
 export const packsReducer = packsSlice.reducer

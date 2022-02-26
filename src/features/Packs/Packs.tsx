@@ -92,16 +92,7 @@ const Component = memo(() => {
         dispatch(fetchPacks({...fetchData, min: value[0], max: value[1]}))
     }
 
-    const handler = (value: string) => {
-        console.log('value')
-        console.log(value)
-        onChangeFilterPacks(value)
-    }
-
-
     const onChangeFilterPacks = (sortPacks: string) => {
-        console.log('sortPacks')
-        console.log(sortPacks)
         dispatch(setSortValue(sortPacks))
         dispatch(fetchPacks({
             ...fetchData,
@@ -154,8 +145,7 @@ const Component = memo(() => {
                 <Input placeholder={'Search by title'}/>
                 {status === 'loading'
                     ? <img src={loader} alt="loader"/>
-                    : <TablePacks handler={handler}
-                                  cardPacks={cardPacks}
+                    : <TablePacks cardPacks={cardPacks}
                                   onChangeFilterPacks={onChangeFilterPacks}
                                   updatePack={onUpdatePackHandler}
                                   removePackCallback={onRemovePackCallback}
