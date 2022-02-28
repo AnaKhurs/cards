@@ -30,9 +30,15 @@ export const ItemPack = React.memo(({
 
     return (
         <tr>
-            <NavLink to={PATH.CARDS + `/${pack._id}`}>
-                <div style={{width: '140px', marginRight: '10px'}}>{pack.name}</div>
-            </NavLink>
+            <td>
+                {
+                    status === 'loading'
+                        ? <div style={{width: '140px', marginRight: '10px'}}>{pack.name}</div>
+                        : <NavLink to={PATH.CARDS + `/${pack._id}`}>
+                            <div style={{width: '140px', marginRight: '10px'}}>{pack.name}</div>
+                        </NavLink>
+                }
+            </td>
             <td>{pack.cardsCount}</td>
             <td>{pack.updated.split('').slice(0, 10).join('')}</td>
             <td>{pack.created.split('').slice(0, 10).join('')}</td>

@@ -7,10 +7,11 @@ import {FormControl, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 type PropsType = {
     value: number
     onChangeOptions: (value: number) => void
+    disabled: boolean
 }
 const options = [4, 8, 10, 12, 20]
 
-export const CustomMuiSelect: FC<PropsType> = React.memo(({value = 8, onChangeOptions}) => {
+export const CustomMuiSelect: FC<PropsType> = React.memo(({value = 8, onChangeOptions, disabled}) => {
 
 
         const handleChange = (e: SelectChangeEvent) => {
@@ -19,7 +20,8 @@ export const CustomMuiSelect: FC<PropsType> = React.memo(({value = 8, onChangeOp
 
         return (
             <div>
-                <FormControl variant="standard" sx={{minWidth: 40, mt: 2}} size={'small'}>
+                <FormControl disabled={disabled}
+                    variant="standard" sx={{minWidth: 40, mt: 2}} size={'small'}>
                     <Select
                         value={value as unknown as string}
                         onChange={handleChange}

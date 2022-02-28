@@ -84,7 +84,7 @@ const Component = memo(() => {
         }
     }, [])
 
-    if (!isLoaded) return <img src={loader} alt="aaaa"/>
+    if (!isLoaded) return <img src={loader} alt="loader"/>
 
     return (
         <div className={s.cardsContainer}>
@@ -100,15 +100,6 @@ const Component = memo(() => {
                                     userId={_id}
                                     onChangeFilterCards={onChangeFilterCards}
                         />
-
-{/*                        <List items={cards} renderItem={(card: CardType) => <Card key={card.updated}
-                                                                                  onSetGradeHandler={onSetGradeHandler}
-                                                                                  userId={_id}
-                                                                                  packUserId={packUserId!}
-                                                                                  updateCard={onUpdateCardHandler}
-                                                                                  deleteCard={onDeleteCardHandler}
-                                                                                  card={card}/>}
-                        />*/}
                         <div style={{display: 'flex', alignSelf: 'flex-start'}}>
                             <CustomMuiPagination
                                 onSetNewPage={onSetNewPageHandler}
@@ -117,7 +108,9 @@ const Component = memo(() => {
                                 currentPage={page}
                                 disabled={status === 'loading'}
                             />
-                            <CustomMuiSelect value={pageCount} onChangeOptions={onChangeOptionsHandler}/>
+                            <CustomMuiSelect disabled={status === 'loading'}
+                                             value={pageCount}
+                                             onChangeOptions={onChangeOptionsHandler}/>
                         </div>
                     </>)
                     : <span style={{fontSize: '70px'}}>no packs</span>

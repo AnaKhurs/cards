@@ -7,7 +7,7 @@ import {sendNewPassword} from './pass-reducer';
 
 const initialState: InitStateType = {
     error: null,
-    status: 'idle',
+    status: 'loading',
     isInitialized: false,
     _id: '',
 }

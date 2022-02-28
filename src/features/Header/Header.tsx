@@ -17,13 +17,15 @@ import {PATH} from "../../utils/paths";
 import s from './Header.module.css'
 import CardsImg from '../../common/img/cards.png'
 import UserImg from '../../common/img/user.png'
-
+import {LinearProgress} from "@mui/material";
+import {StatusType} from "../../bll/app-reducer";
 
 export const Header = () => {
 
 
     const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
     const user = useAppSelector<ProfileType>(state => state.profile)
+    const status = useAppSelector<StatusType>(state => state.app.status)
     const {avatar, name} = user
 
     const dispatch = useAppDispatch()
@@ -34,14 +36,17 @@ export const Header = () => {
     }
 
     return (
-        <AppBar position="fixed" sx={{backgroundColor: 'gray', width: '100%'}}>
+        <AppBar position="fixed" sx={{backgroundColor: '#007556', width: '100%'}}>
+            <div style={{height: '1px'}}>
+                {status === 'loading' && <LinearProgress color={'success'} sx={{height: '1px'}}/>}
+            </div>
             <Toolbar sx={{padding: '0 2%', display: 'flex', justifyContent: 'space-between'}} disableGutters>
                 <Typography
                     onClick={() => navigate(PATH.MAIN)}
-                    variant="h6"
+                    variant='h6'
                     noWrap
-                    component="div"
-                    sx={{mr: 2, display: {md: 'flex', cursor: "pointer"}}}
+                    component='div'
+                    sx={{mr: 2, display: {md: 'flex', cursor: 'pointer'}}}
                 >
                     Cards
                 </Typography>
@@ -71,12 +76,12 @@ export const Header = () => {
                 <Box sx={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
                     {isLoggedIn &&
                     <div>
-                        <Typography variant="subtitle1" component="span" sx={{marginRight: '10px'}}>
+                        <Typography variant='subtitle1' component="span" sx={{marginRight: '10px'}}>
                             {name ? name : 'user name'}
                         </Typography>
 
                         <IconButton sx={{p: 0}}>
-                            <Avatar alt="user photo" src={avatar ? avatar : UserPhoto}/>
+                            <Avatar alt='user photo' src={avatar ? avatar : UserPhoto}/>
                         </IconButton>
                         <IconButton sx={{p: 0}}
                                     onClick={logoutHandler}>
@@ -86,6 +91,7 @@ export const Header = () => {
                     }
                 </Box>
             </Toolbar>
+
         </AppBar>
     );
 };

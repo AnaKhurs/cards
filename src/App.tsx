@@ -1,4 +1,4 @@
-import {useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {Navigate, Route, Routes} from 'react-router-dom';
 
@@ -20,6 +20,7 @@ import {Header} from "./features/Header/Header";
 import {Packs} from "./features/Packs/Packs";
 import LoadingStatusBackdrop from "./features/LoadingBackDrop/BackDrop";
 import {Cards} from './features/Cards/Cards';
+import {LinearProgress} from "@mui/material";
 
 
 function App() {

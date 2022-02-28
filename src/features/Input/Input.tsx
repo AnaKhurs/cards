@@ -28,8 +28,7 @@ export const Input = memo(({placeholder}: PropsType) => {
                 className={s.textField}
                 value={defaultValue}
                 onChange={onChangeCallback}
-                sx={{width: '200px'}}
-                margin={'normal'}
+                sx={{width: '300px'}}
                 id="outlined-basic"
                 variant="standard"
             />

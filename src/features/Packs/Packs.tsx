@@ -23,6 +23,9 @@ import {AddNewPackModal} from '../CustomModals/AddNewPackModal/AddNewPackModal';
 import Typography from '@mui/material/Typography';
 import loader from '../../common/img/loader.gif';
 import s from './Packs.module.scss';
+import {ButtonGroup, LinearProgress} from "@mui/material";
+import Button from "@mui/material/Button";
+import LoadingStatusBackdrop from "../LoadingBackDrop/BackDrop";
 
 const Component = memo(() => {
     const {status} = useAppSelector(state => state.app)
@@ -120,46 +123,55 @@ const Component = memo(() => {
     const myClassName = `${s.belong} ${own ? s.active : ''}`
     const allClassName = `${s.belong} ${own ? '' : s.active}`
 
-    if (!isLoaded) return <img src={loader} alt="loader"/>
+    if (!isLoaded) return <LoadingStatusBackdrop/>
 
     return (
         <div className={s.main}>
-            <div>
-                <DoubleRangeInput onchangeSliderValue={onchangeSliderValue}/></div>
-            <div className={s.controls}>
-                <div>
-                    <AddNewPackModal addPackHandler={addPackHandler}/>
-                </div>
-                <div className={s.belongBlock}>
+            <div className={s.packsSettings}>
+                <div className={s.buttonGroupContainer}>
                     <Typography variant={'h6'}>
                         Show cards packs
                     </Typography>
+                    <ButtonGroup style={{marginTop: '20px'}}>
+                        <Button onClick={onMyPacksHandler} className={myClassName}>My</Button>
+                        <Button onClick={onAllPacksHandler} className={allClassName}>All</Button>
+                    </ButtonGroup>
+                </div>
+                <div className={s.doubleRangeContainer}>
+                    <Typography variant={'h6'}>
+                        Number of cards
+                    </Typography>
+                    <DoubleRangeInput onchangeSliderValue={onchangeSliderValue}/>
+                </div>
+
+            </div>
+
+            <div className={s.content}>
+
+                <div className={s.controls}>
+                    <Input placeholder={'Search by title'}/>
                     <div>
-                        <span onClick={onMyPacksHandler} className={myClassName}>My</span>
-                        <span onClick={onAllPacksHandler} className={allClassName}>All</span>
+                        <AddNewPackModal addPackHandler={addPackHandler}/>
                     </div>
                 </div>
-            </div>
-            <div>
-
-                <Input placeholder={'Search by title'}/>
-                {status === 'loading'
-                    ? <img src={loader} alt="loader"/>
-                    : <TablePacks cardPacks={cardPacks}
-                                  onChangeFilterPacks={onChangeFilterPacks}
-                                  updatePack={onUpdatePackHandler}
-                                  removePackCallback={onRemovePackCallback}
+                <div className={s.table}>
+                    <TablePacks cardPacks={cardPacks}
+                                onChangeFilterValue={onChangeFilterPacks}
+                                updatePack={onUpdatePackHandler}
+                                removePackCallback={onRemovePackCallback}
                     />
-                }
-                <div className={s.pagination}>
-                    <CustomMuiPagination
-                        totalItemsCount={cardPacksTotalCount}
-                        pageCount={pageCount}
-                        currentPage={page}
-                        onSetNewPage={onPageChange}
-                        disabled={status === 'loading'}
-                    />
-                    <CustomMuiSelect value={pageCount} onChangeOptions={onChangePageCount}/>
+                    <div className={s.pagination}>
+                        <CustomMuiPagination
+                            totalItemsCount={cardPacksTotalCount}
+                            pageCount={pageCount}
+                            currentPage={page}
+                            onSetNewPage={onPageChange}
+                            disabled={status === 'loading'}
+                        />
+                        <CustomMuiSelect disabled={status === 'loading'}
+                                         value={pageCount}
+                                         onChangeOptions={onChangePageCount}/>
+                    </div>
                 </div>
             </div>
         </div>
