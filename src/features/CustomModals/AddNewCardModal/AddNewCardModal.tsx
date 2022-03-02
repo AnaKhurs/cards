@@ -34,7 +34,7 @@ export const AddNewCardModal = ({addCardHandler}: PropsType) => {
     return (
         <>
             <button
-                style={{alignSelf: 'flex-start'}}
+                style={{alignSelf: 'flex-start', marginLeft: '45px'}}
                 className={c.applyWideButton}
                 disabled={status === 'loading'}
                 onClick={onShowModalHandler}>Add new card

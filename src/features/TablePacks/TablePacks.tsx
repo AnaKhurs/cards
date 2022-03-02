@@ -1,5 +1,5 @@
 import React from 'react';
-import {CardPackType, sortValues} from "../../dal/packs-api";
+import {CardPackType} from "../../dal/packs-api";
 import {useAppDispatch, useAppSelector} from "../../bll/store";
 import {setPackId} from "../../bll/cards-reducer";
 import {useNavigate} from "react-router-dom";

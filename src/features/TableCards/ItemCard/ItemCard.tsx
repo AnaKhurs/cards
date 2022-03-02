@@ -1,8 +1,9 @@
 import React from 'react';
-import {CardType} from "../../bll/cards-reducer";
-import {DeleteCardModal} from "../CustomModals/DeleteCardModal/DeleteCardModal";
-import {EditCardModal} from "../CustomModals/EditCardModal/EditCardModal";
+import {CardType} from "../../../bll/cards-reducer";
+import {DeleteCardModal} from "../../CustomModals/DeleteCardModal/DeleteCardModal";
+import {EditCardModal} from "../../CustomModals/EditCardModal/EditCardModal";
 import Rating from "@mui/material/Rating";
+import s from './ItemCard.module.scss'
 
 type PropsType = {
     pack: CardType
@@ -28,9 +29,9 @@ export const ItemCard = React.memo(({
 
     return (
         <tr>
-            <td>{pack.question}</td>
-            <td>{pack.answer}</td>
-            <td>{pack.updated.split('').slice(0, 10).join('')}</td>
+            <td className={s.questionColumn}>{pack.question}</td>
+            <td className={s.answerColumn}>{pack.answer}</td>
+            <td className={s.updatedColumn}>{pack.updated.split('').slice(0, 10).join('')}</td>
             <td>
                 <Rating
                     name="simple-controlled"

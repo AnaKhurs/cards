@@ -1,7 +1,6 @@
 import React, {memo, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../../bll/store';
 import {clearCardsData, createCard, deleteCard, fetchCards, setGrade, updateCard} from '../../bll/cards-reducer';
-import loader from '../../common/img/loader.gif';
 import s from './Cards.module.scss'
 import {CustomMuiPagination} from '../Pagination/CustomMuiPagination';
 import {CustomMuiSelect} from '../Select/CustomMuiSelect';
@@ -10,7 +9,7 @@ import {NotAuthRedirect} from '../../hoc/NotAuthRedirect';
 import {GetCardsRequestType} from '../../dal/cards-api';
 import {AddNewCardModal} from '../CustomModals/AddNewCardModal/AddNewCardModal';
 import {TableCards} from "../TableCards/TableCards";
-import {fetchPacks} from "../../bll/packs-reducer";
+import LoadingStatusBackdrop from "../LoadingBackDrop/BackDrop";
 
 const Component = memo(() => {
 
@@ -84,7 +83,7 @@ const Component = memo(() => {
         }
     }, [])
 
-    if (!isLoaded) return <img src={loader} alt="loader"/>
+    if (!isLoaded) return <LoadingStatusBackdrop/>
 
     return (
         <div className={s.cardsContainer}>
@@ -100,7 +99,7 @@ const Component = memo(() => {
                                     userId={_id}
                                     onChangeFilterCards={onChangeFilterCards}
                         />
-                        <div style={{display: 'flex', alignSelf: 'flex-start'}}>
+                        <div style={{display: 'flex', alignSelf: 'flex-end', marginRight: '135px'}}>
                             <CustomMuiPagination
                                 onSetNewPage={onSetNewPageHandler}
                                 totalItemsCount={cardsTotalCount}

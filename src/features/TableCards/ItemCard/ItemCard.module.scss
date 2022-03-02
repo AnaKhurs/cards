@@ -1,0 +1,64 @@
+table {
+  margin: 10px 50px;
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tr:nth-child(odd) {
+    background-color: #ddd;
+  }
+
+
+  tr:hover {
+    background-color: palegreen;
+  }
+}
+
+
+td {
+  width: 140px;
+  word-wrap: break-word;
+  margin: 10px;
+  padding-left: 10px;
+}
+
+.questionColumn {
+  width: 250px;
+  padding-right: 10px;
+}
+
+.answerColumn {
+  min-width: 350px;
+  padding-right: 50px;
+}
+
+.updatedColumn {
+  width: 200px;
+}
+
+
+.packContainer {
+  display: flex;
+  justify-content: space-around;
+  max-width: 800px;
+  width: 100%;
+  color: black;
+
+  .packContent {
+    display: flex;
+
+    & span {
+      width: 100px;
+      overflow: hidden;
+      text-align: center;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    width: 175px;
+    justify-content: flex-end;
+  }
+}
